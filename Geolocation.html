@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Distance to KBU</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f2f5;
+        text-align: center;
+      }
+      .container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+      }
+      button {
+        padding: 15px 30px;
+        font-size: 18px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #result {
+        margin-top: 30px;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+        min-height: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Distance Calculator</h1>
+      <p>Find out how far you are from Kasem Bundit University.</p>
+      <button id="findButton">Where am I?</button>
+      <p id="result"></p>
+      <button class="back-button" onclick="window.history.back()">Back</button>
+    </div>
+
+    <script>
+      const findButton = document.getElementById("findButton");
+      const resultElement = document.getElementById("result");
+
+      // Coordinates for Kasem Bundit University (Romklao Campus)
+      const kbuLat = 13.80392835209989;
+      const kbuLon = 100.73940802409565;
+
+      findButton.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          resultElement.textContent =
+            "Geolocation is not supported by your browser.";
+          return;
+        }
+
+        resultElement.textContent = "Locating...";
+        navigator.geolocation.getCurrentPosition(
+          successCallback,
+          errorCallback
+        );
+      });
+
+      function successCallback(position) {
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+        const distance = calculateDistance(userLat, userLon, kbuLat, kbuLon);
+
+        resultElement.textContent = `You're ${distance.toFixed(
+          2
+        )} km away from the Kasem Bundit University.`;
+      }
+
+      function errorCallback(error) {
+        resultElement.textContent = `Error: ${error.message}`;
+      }
+
+      // Haversine formula to calculate distance between two lat/lon points
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radius of the Earth in km
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+      }
+
+      // Helper function to convert degrees to radians
+      function toRad(value) {
+        return (value * Math.PI) / 180;
+      }
+    </script>
+  </body>
+</html>

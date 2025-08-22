@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Calculator</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      div {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+      button,
+      .back-button {
+        padding: 10px 15px;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none; /* For the <a> tag */
+        display: inline-block;
+        margin: 5px;
+      }
+      #calculate {
+        background-color: #dc3545;
+      }
+      #calculate:hover {
+        background-color: #c82333;
+      }
+      .back-button {
+        background-color: #6c757d;
+      }
+      .back-button:hover {
+        background-color: #5a6268;
+      }
+      input {
+        padding: 10px;
+        width: 200px;
+      }
+      #result {
+        font-size: 18px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Change Calculator</h1>
+      <p>Calculate the change to be returned</p>
+      <input
+        type="number"
+        id="amount"
+        placeholder="Enter amount"
+        required
+        min="0"
+        step="any"
+      />
+      <br /><br />
+      <button id="calculate">Calculate Change</button>
+      <button class="back-button">Back to Menu</button>
+      <p id="result"></p>
+    </div>
+    <script>
+      document
+        .getElementById("calculate")
+        .addEventListener("click", function () {
+          const amountInput = document.getElementById("amount");
+          const result = document.getElementById("result");
+
+          if (!amountInput.checkValidity()) {
+            result.textContent = amountInput.validationMessage;
+            return;
+          }
+
+          let change = parseFloat(amountInput.value);
+
+          if (change == 0) {
+            result.textContent = "No change to return.";
+            return;
+          }
+
+          const denominations = [500, 100, 50, 20, 10, 5, 1];
+          let changeBreakdown = {};
+
+          let remainingChange = change;
+
+          denominations.forEach((denom) => {
+            const count = Math.floor(remainingChange / denom);
+            if (count > 0) {
+              changeBreakdown[denom] = count;
+              remainingChange = (remainingChange % denom).toFixed(2);
+            }
+          });
+
+          let parts = [];
+          for (const denom in changeBreakdown) {
+            const count = changeBreakdown[denom];
+            parts.push(`${count} x ฿${denom}`);
+          }
+
+          if (parts.length > 0) {
+            result.innerHTML =
+              `Change for ฿${change}:<br>` + parts.join("<br>");
+          } else {
+            result.textContent = "No change to return.";
+          }
+        });
+      document.querySelector(".back-button").addEventListener("click", () => {
+        window.history.back();
+      });
+    </script>
+  </body>
+</html>

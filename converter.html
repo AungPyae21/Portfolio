@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Unit Converter</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f2f5;
+      }
+      .container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      h1 {
+        margin-top: 0;
+        color: #333;
+      }
+      input[type="number"],
+      select,
+      button,
+      .back-button {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+
+      input[type="number"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+      #result {
+        margin-top: 10px;
+        font-size: 1.1em;
+        font-weight: 500;
+        color: #333;
+        min-height: 25px;
+      }
+      .custom-select {
+        position: relative;
+      }
+
+      .back-button {
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        display: block;
+      }
+      .back-button:hover {
+        background-color: #5a6268;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Unit Converter</h1>
+      <p>Convert between different units of measurement</p>
+      <input
+        type="number"
+        id="value"
+        placeholder="Enter measurement"
+        required
+      />
+      <span class="custom-select" style="width: 200px">
+        <select>
+          <option value="0">Select measurement:</option>
+          <option value="1">inches to cm</option>
+          <option value="2">cm to inches</option>
+          <option value="3">Farhenheit to Celsius</option>
+          <option value="4">Celsius to Farhenheit</option>
+        </select>
+      </span>
+      <div class="button-container">
+        <button id="convert">Convert</button>
+      </div>
+      <button id="backbutton" class="back-button">Back to Menu</button>
+      <p id="result"></p>
+    </div>
+  </body>
+  <script>
+    const container = document.getElementsByClassName("container")[0];
+    const num = document.getElementById("value");
+
+    const button = document.getElementById("convert");
+    const select = document.querySelector(".custom-select select");
+
+    button.addEventListener("click", () => {
+      if (!num.checkValidity()) {
+        result.textContent = num.validationMessage;
+        return;
+      }
+      if (select.value === "0") {
+        result.textContent = "Please select a valid measurement type.";
+        return;
+      }
+      switch (select.value) {
+        case "0":
+          alert("Please select a valid measurement type.");
+          break;
+        case "1":
+          convertInchesToCm();
+          break;
+        case "2":
+          convertCmToInches();
+          break;
+        case "3":
+          convertFarhenheitToCelsius();
+          break;
+        case "4":
+          convertCelsiusToFarhenheit();
+          break;
+      }
+    });
+
+    function convertInchesToCm() {
+      const inches = parseFloat(num.value);
+      const centimeters = inches * 2.54;
+      const result = document.getElementById("result");
+      result.textContent = `${inches} inches is ${centimeters.toFixed(
+        2
+      )} centimeters`;
+    }
+    function convertCmToInches() {
+      const centimeters = parseFloat(num.value);
+      const inches = centimeters / 2.54;
+      const result = document.getElementById("result");
+      result.textContent = `${centimeters} centimeters is ${inches.toFixed(
+        2
+      )} inches`;
+    }
+    function convertFarhenheitToCelsius() {
+      const farhenheit = parseFloat(num.value);
+      const celsius = (farhenheit - 32) * (5 / 9);
+      const result = document.getElementById("result");
+      result.textContent = `${farhenheit}°F is ${celsius.toFixed(2)}°C`;
+    }
+    function convertCelsiusToFarhenheit() {
+      const celsius = parseFloat(num.value);
+      const farhenheit = celsius * (9 / 5) + 32;
+      const result = document.getElementById("result");
+      result.textContent = `${celsius}°C is ${farhenheit.toFixed(2)}°F`;
+    }
+    document.querySelector(".back-button").addEventListener("click", () => {
+      window.history.back();
+    });
+  </script>
+</html>
