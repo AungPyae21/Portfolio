@@ -287,6 +287,51 @@ li::before {
   td {
     padding: 15px 10px;
   }
+  .skill_interest thead {
+    display: none;
+  }
+
+  .skill_interest tbody tr {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .skill_interest td {
+    border: none;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+  }
+
+  .skill_interest td::before {
+    display: block;
+    padding: 15px;
+    margin: -20px -20px 15px -20px;
+    color: white;
+    background: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .skill_interest td:nth-of-type(1)::before {
+    content: "Skills";
+  }
+
+  .skill_interest td:nth-of-type(2)::before {
+    content: "Interests";
+  }
+
+  .skill_interest table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+  }
 }
 
 /* Subtle animations */
